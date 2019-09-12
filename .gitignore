@@ -1,0 +1,5 @@
+.vscode
+*.log
+user.*
+.vagrant
+ton_vagrant_*
