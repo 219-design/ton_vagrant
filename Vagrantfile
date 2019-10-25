@@ -1,16 +1,19 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-def machine_config_defaults(config)
-    # config.vm.box = "ubuntu/xenial64" # 16.04 LTS Xenial Xerus supported until 2021 April.
-    config.vm.box = "ubuntu/bionic64" # 18.04 LTS Bionic Beaver supported until 2023 April.
-
+def config_defaults(config)
     config.vagrant.plugins = [
       'vagrant-disksize',
       'vagrant-reload',
       'vagrant-vbguest',
     ]
     config.disksize.size = "1024GB"
+end
+
+def vm_defaults(vm, box="ubuntu/bionic64")
+    # vm.box = "ubuntu/xenial64" # 16.04 LTS Xenial Xerus supported until 2021 April.
+    # vm.box = "ubuntu/bionic64" # 18.04 LTS Bionic Beaver supported until 2023 April.
+    vm.box = box
 end
 
 def find_providers(definition, search_dir)
@@ -27,7 +30,7 @@ def find_providers(definition, search_dir)
 end
 
 def graphical_virtualbox(virtualbox)
-    virtualbox.gui = true
+    virtualbox.gui = true # This has to be set for the clipboard to be shared.
     virtualbox.customize [ "modifyvm", :id, "--mouse", "usb" ]
     virtualbox.customize [ "modifyvm", :id, "--vram", "256" ]
     virtualbox.customize [ "modifyvm", :id, "--clipboard", "bidirectional" ]
