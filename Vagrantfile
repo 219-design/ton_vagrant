@@ -8,6 +8,7 @@ def config_defaults(config)
       'vagrant-vbguest',
     ]
     config.disksize.size = "1024GB"
+    config.ssh.forward_x11 = true
 end
 
 def vm_defaults(vm, box="ubuntu/bionic64")
