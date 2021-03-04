@@ -14,6 +14,7 @@ end
 def vm_defaults(vm, box="ubuntu/bionic64")
     # vm.box = "ubuntu/xenial64" # 16.04 LTS Xenial Xerus supported until 2021 April.
     # vm.box = "ubuntu/bionic64" # 18.04 LTS Bionic Beaver supported until 2023 April.
+    # vm.box = "ubuntu/focal64" # 20.04 LTS Focal Fossa supported until 2025 April.
     vm.box = box
 end
 
