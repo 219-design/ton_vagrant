@@ -2,21 +2,21 @@
 # vi: set ft=ruby :
 
 module VirtualBox
-    def self.config_defaults(config)
-        config.vagrant.plugins = [
+    def self.config_defaults(override)
+        override.vagrant.plugins = [
           'vagrant-disksize',
           'vagrant-reload',
           'vagrant-vbguest',
         ]
-        config.disksize.size = "1024GB"
-        config.ssh.forward_x11 = true
+        override.disksize.size = "1024GB"
+        override.ssh.forward_x11 = true
     end
 
-    def self.vm_defaults(vm, box="ubuntu/focal64")
-        # vm.box = "ubuntu/xenial64" # 16.04 LTS Xenial Xerus supported until 2021 April.
-        # vm.box = "ubuntu/bionic64" # 18.04 LTS Bionic Beaver supported until 2023 April.
-        # vm.box = "ubuntu/focal64" # 20.04 LTS Focal Fossa supported until 2025 April.
-        vm.box = box
+    def self.vm_defaults(override, box="ubuntu/focal64")
+        # override.vm.box = "ubuntu/xenial64" # 16.04 LTS Xenial Xerus supported until 2021 April.
+        # override.vm.box = "ubuntu/bionic64" # 18.04 LTS Bionic Beaver supported until 2023 April.
+        # override.vm.box = "ubuntu/focal64" # 20.04 LTS Focal Fossa supported until 2025 April.
+        override.vm.box = box
     end
 
     def self.graphical(provider)
@@ -28,43 +28,24 @@ module VirtualBox
 end
 
 module VMware
-    def self.config_defaults(config)
-        config.vagrant.plugins = [
+    def self.config_defaults(override)
+        override.vagrant.plugins = [
           'vagrant-disksize',
           'vagrant-reload',
         ]
-        config.disksize.size = "1024GB"
-        config.ssh.forward_x11 = true
+        override.disksize.size = "1024GB"
+        override.ssh.forward_x11 = true
     end
 
-    def self.vm_defaults(vm, box="bento/ubuntu-20.04")
-        # vm.box = "bento/ubuntu-20.04" # 20.04 LTS Focal Fossa supported until 2025 April.
-        vm.box = box
+    def self.vm_defaults(override, box="bento/ubuntu-20.04")
+        # override.vm.box = "bento/ubuntu-20.04" # 20.04 LTS Focal Fossa supported until 2025 April.
+        override.vm.box = box
     end
 
     def self.graphical(provider)
         provider.gui = true
+        provider.vmx["usb.present"] = "TRUE"
     end
-end
-
-def config_defaults(config)
-    warn "[DEPRECATION] `config_defaults` is deprecated.  Please use `VirtualBox::config_defaults` instead."
-    VirtualBox::config_defaults(config)
-end
-
-def vm_defaults(vm, box="ubuntu/bionic64")
-    warn "[DEPRECATION] `vm_defaults` is deprecated.  Please use `VirtualBox::vm_defaults` instead."
-    VirtualBox::vm_defaults(vm, box)
-end
-
-def graphical_virtualbox(virtualbox)
-    warn "[DEPRECATION] `graphical_virtualbox` is deprecated.  Please use `VirtualBox::graphical` instead."
-    VirtualBox::graphical(virtualbox)
-end
-
-def find_providers(definition, search_dir)
-    warn "[DEPRECATION] `find_providers` is deprecated.  Please use `find_provisioners` instead."
-    find_provisioners(definition, search_dir)
 end
 
 def find_provisioners(definition, search_dir)
