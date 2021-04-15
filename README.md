@@ -4,12 +4,21 @@ Because virtual machines are hard to redistribute, more difficult to tweak and e
 
 ## All Platforms
 
-- Download and install [Vagrant](https://www.vagrantup.com)
-- Download and install [VirtualBox](https://www.virtualbox.org)
+* Download and install [Vagrant](https://www.vagrantup.com)
+* Download and install a supported virtual machine provider
+    * [VirtualBox](https://www.virtualbox.org)
+    * [VMware](https://www.vmware.com) (note that Workstation Player may be missing `vmrun` in recent Linux releases, check the Initial Set Up section before continuing)
+        * [Vagrant VMware Utility](https://www.vagrantup.com/vmware/downloads) with [installation instructions](https://www.vagrantup.com/docs/providers/vmware/vagrant-vmware-utility)
+        * [Vagrant VMware plugin](https://www.vagrantup.com/vmware) with [installation instructions](https://www.vagrantup.com/docs/providers/vmware/installation)
+            * [License file can be bought here](https://www.vagrantup.com/vmware)
 
-## Ubuntu
+It is strongly recommended that you store any virtual machine disks on the highest speed storage device available on your system.
+
+## Linux
 
 ### Initial Set Up
+
+#### VirtualBox
 
 Open a terminal in the host machine and add the current user to the group of vboxusers. This is necessary in order for the guest machine to see USB-connected devices.
 
@@ -25,6 +34,18 @@ sudo reboot
 
 Go to the General Set Up section to continue.
 
+#### VMware
+
+In Workstation 16 Player the executable for managing virtual machines `vmrun` is missing. So before paying for a broken product you can install an evaluation of the VMware product you want to use. If you're not sure try Workstation Player first and if that doesn't have `vmrun` then Workstation Pro should. You can check for the presence of `vmrun` this way:
+
+```bash
+which vmrun
+```
+
+If you get a path like `/usr/bin/vmrun` back that should indicate that `vmrun` is available.
+
+You can now continue to install the Vagrant-specific tools in the All Platforms section and then continue to General Set Up
+
 ## General Set Up
 
 ### Including Machines
@@ -33,7 +54,7 @@ You'll need to git clone the machines you want/need to use into this folder. The
 
 #### Machine Enumeration
 
-In order to enforce a boot order when one machine depends on another (as is the case with the cache and interview machines) creating a file user.vagrants.rb to list the folders where the machine's Vagrantfile is held needs to be created. The below is an example of this file.
+Each machine definition will have its own Vagrantfile to describe how to set it up. In order to find these Vagrantfiles you will need to create a user.vagrants.rb in this repository's directory to enumerate each directory containing a Vagrantfile. Here's an example of this file.
 
 ```ruby
 def get_vagrants()
@@ -56,15 +77,23 @@ Vagrantfile
 
 ### Creation
 
-Open a terminal and change directory to the one containing the file named Vagrantfile and begin the vagrant set up process.
+Open a terminal and change directory to the one containing the file named Vagrantfile. To create a machine without specifying the virtual machine provider you can run the following.
 
 ```bash
  vagrant up $MACHINE
 ```
 
-This process can take a while. It will bring up a VirtualBox VM window but don't try to use it until the process in the terminal is complete. If the output of the terminal you ran ```vagrant up $MACHINE``` from shows an error you will have to figure out the problem from the terminal output.
+If you want to specify that the VM will be provided by VMware you may specify it at creation time.
 
-In most cases you shouldn't have to log in but if you do log in as user "vagrant" and password "vagrant". You can also access the command line from the same directory as the Vagrantfile using Vagrant's ssh.
+```bash
+ vagrant up $MACHINE --provider=vmware_desktop
+```
+
+This process can take a while. It will bring up a VM window but don't try to use it until the process in the terminal is complete. If the output of the terminal you ran ```vagrant up $MACHINE``` from shows an error or hangs you will have to figure out the problem from the terminal output.
+
+When the machine is not running the same command can be used to boot the machine. But so long as the machine exists the provider does not need to be respecified.
+
+In most cases you shouldn't have to log in but if you do log in as user "vagrant" and password "vagrant". You can also access the command line from the same directory as the `vagrant up` command using Vagrant's ssh.
 
 ```bash
 vagrant ssh $MACHINE
