@@ -4,3 +4,4 @@ user.*
 .vagrant
 ton_vagrant_*
 *_vagrant/
+*_vagrant_*/
