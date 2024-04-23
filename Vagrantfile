@@ -6,17 +6,17 @@ module VirtualBox
         override.vagrant.plugins = [
           'vagrant-disksize',
           'vagrant-reload',
-          'vagrant-vbguest',
         ]
         override.disksize.size = "1024GB"
         override.ssh.forward_x11 = true
     end
 
-    def self.vm_defaults(override, box="ubuntu/jammy64")
+    def self.vm_defaults(override, box="ubuntu/noble64")
         # override.vm.box = "ubuntu/xenial64" # 16.04 LTS Xenial Xerus supported until 2021 April.
         # override.vm.box = "ubuntu/bionic64" # 18.04 LTS Bionic Beaver supported until 2023 April.
         # override.vm.box = "ubuntu/focal64" # 20.04 LTS Focal Fossa supported until 2025 April.
-        # override.vm.box = "ubuntu/jammy64" # 22.04 LTS Focal Fossa supported until 2027 April.
+        # override.vm.box = "ubuntu/jammy64" # 22.04 LTS Jammy Jellyfish supported until 2027 April.
+        # override.vm.box = "ubuntu/noble64" # 24.04 LTS Noble Numbat supported until 2029 April.
         override.vm.box = box
     end
 
@@ -40,7 +40,7 @@ module VMware
 
     def self.vm_defaults(override, box="bento/ubuntu-22.04")
         # override.vm.box = "bento/ubuntu-20.04" # 20.04 LTS Focal Fossa supported until 2025 April.
-        # override.vm.box = "bento/ubuntu-22.04" # 22.04 LTS Focal Fossa supported until 2027 April.
+        # override.vm.box = "bento/ubuntu-22.04" # 22.04 LTS Jammy Jellyfish supported until 2027 April.
         override.vm.box = box
     end
 
