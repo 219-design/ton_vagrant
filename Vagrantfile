@@ -6,7 +6,6 @@ module VirtualBox
         override.vagrant.plugins = [
           'vagrant-disksize',
           'vagrant-reload',
-          'vagrant-vbguest',
         ]
         override.disksize.size = "1024GB"
         override.ssh.forward_x11 = true
