@@ -73,7 +73,7 @@ def configure()
     #     ]
     # end
     user_vagrants = File.join(__dir__, "user.vagrants.rb")
-    if !File.exists?(user_vagrants)
+    if !File.file?(user_vagrants)
         abort("Failed to find #{user_vagrants} for loading. See the main Vagrantfile for an example.")
     end
     load(user_vagrants)
@@ -82,7 +82,7 @@ def configure()
     vagrants = get_vagrants()
     vagrants.each do |vagrant|
         vagrantfile = File.join(vagrant, "Vagrantfile")
-        if !File.exists?(vagrantfile)
+        if !File.file?(vagrantfile)
             abort("Failed to find #{vagrantfile} for loading.")
         end
         load(vagrantfile)
